@@ -1,0 +1,123 @@
+.footer{
+    background-color: var(--veryDarkBlue);
+    padding: 40px 28px;
+}
+
+.footer-container{
+  display: flex;   
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;   
+  padding: 40px 0;
+}
+
+.social{
+    display: flex;
+    flex-direction: column;
+   gap: 5rem;
+}
+
+
+.social-links{
+    display: flex;
+    gap: 1rem;
+}   
+
+.footer-submenu{
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.footer-submenu li{
+    color: var( --brightRedSupLight);
+    margin-top: 10px;
+    font-size: 15px;
+
+}
+
+.newsletter{
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.input-container input{
+    border: none;
+    outline: none;
+    padding: 15px;
+    border-radius: 25px;
+    margin-right: 5px;
+    
+}
+
+.input-container input::placeholder{
+    color: var (--darkGrayishBlue);
+}
+
+.btn-footer{
+    background-color:var(--brightRedLight);
+    color:white;
+    padding: 11px  24px;
+}
+
+.footer p {
+    color: var(--darkGrayishBlue);  
+    font-size: 14px;
+    text-align: right;
+}
+.menu-footer{
+    display: flex;
+    gap: 9rem;
+    align-items: flex-start;
+}
+
+/* media queries */
+@media only screen and (max-width:768px) {
+
+
+.input-container input{
+    margin-bottom: 10px;
+    padding: 10px 10px;
+    
+}
+.menu-footer{
+    gap: 2rem;
+}
+
+}
+
+
+@media only screen and (max-width:580px) {
+  
+    .input-container input{
+        margin-bottom: 10px;
+        padding: 10px 10px;
+        /* width: 100%; */
+    }
+        .footer-container{
+            flex-direction: column-reverse;
+            align-content: center;
+            justify-content: center;
+        }
+        .footer{
+            background-color: var(--veryDarkBlue);
+            padding: 10px;
+        }
+        .input-container input{
+            /* width: 100%; */
+            padding: 15px;
+        }
+        .menu-footer{
+           gap:5rem
+        }
+        .social{
+            flex-direction: column-reverse;
+            margin-top: 1rem;
+            gap: 2rem;
+        }
+        .footer P{
+            text-align: center;
+        }
+
+}
