@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.hero {
+  padding: 60px 0;
+}
+
+.hero_block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.hero_block h2 {
+  font-size: 48px;
+  color: #242d52;
+  max-width: 500px;
+}
+
+.service {
+  padding: 60px 0;
+}
+
+.service_block {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.service_block h2 {
+  font-size: 36px;
+  color: #242d52;
+  max-width: 400px;
+} 

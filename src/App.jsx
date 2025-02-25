@@ -1,7 +1,8 @@
 import React from "react";
-import { Header } from "./components/header/header";
+import './App.css';
+import Header from "./components/header/Header";
 import heroImg from "./assets/hero.svg";
-import { ServiceCard } from "./components/service-card/service-card";
+import { ServiceCard } from "./components/service-card/ServiceCard";
 
 function App() {
   const [state, setState] = React.useState(0);
@@ -21,7 +22,7 @@ function App() {
       <section className="service">
         <div className="container">
           <div className="service_block">
-            <h2>What’s different about Manage?</h2>
+            <h2>What's different about Manage?</h2>
             <div>
               <ServiceCard
                 number={"1"}
