@@ -1,11 +1,14 @@
 import { Card, Row, Col, Typography, Statistic, Button } from 'antd';
 import { Link as RouterLink, useNavigate } from 'react-router-dom'; // `react-router-dom` dan `Link` ni `RouterLink` deb nomladik
-import { EyeOutlined, PlusOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
+import React from 'react';
 
 const { Title, Text, Link } = Typography; // Antd dan `Link` ni `Typography` dan olamiz
 
+
 export const Home = () => {
   const navigate = useNavigate();
+  const [state, setState] = React.useState<boolean>(false)
 
   return (
     <div style={{ padding: 16 }}>
@@ -19,8 +22,11 @@ export const Home = () => {
           textAlign: 'center',
         }}
       >
-        <Title level={4} style={{ color: '#fff' }}>
-          Umumiy nasiya: 135 214 200 so‘m <EyeOutlined />
+<Title level={4} style={{ color: '#fff' }}>
+          Umumiy nasiya: {state ? "* * * * * *" : "135 214 200 so‘m"}{' '}
+          <Col style={{display:"inline-block"}} onClick={() => setState(!state)}>
+             {!state ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+          </Col>
         </Title>
       </Card>
 
