@@ -1,13 +1,17 @@
 import { Row, Col, Input, Button, Typography, Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
 import LogoIcon from "../../assets/login.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "./service/useLogin";
 import { useQueryClient } from "@tanstack/react-query"; 
 import { toast, ToastContainer } from "react-toastify";
 import React from "react";
+import { saveState } from "../../config/storage";
+
+
 
 export const LoginPage = () => {
+    const navigate= useNavigate()
     const {
         control,
         reset,
@@ -22,12 +26,11 @@ export const LoginPage = () => {
 
     const onSubmit = (data: any) => {
         mutate(data, {
-            onSuccess: () => {
-                reset();
+            onSuccess: (userdata) => {
+                saveState('user', userdata)
                 client.invalidateQueries({ queryKey: ["user_data"] });
-                toast.success("Todo added successfully!", {
-                    position: "top-center",
-                });
+                navigate("/")
+               
             },
             onError: (error) => {
                 // @ts-ignore
