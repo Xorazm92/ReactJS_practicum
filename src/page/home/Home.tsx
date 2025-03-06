@@ -1,14 +1,13 @@
 import { Card, Row, Col, Typography, Statistic, Button } from 'antd';
 import { Link as RouterLink, useNavigate } from 'react-router-dom'; // `react-router-dom` dan `Link` ni `RouterLink` deb nomladik
 import { EyeInvisibleOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useState } from 'react';
 
 const { Title, Text, Link } = Typography; // Antd dan `Link` ni `Typography` dan olamiz
 
 
 export const Home = () => {
-  const navigate = useNavigate();
-  const [state, setState] = React.useState<boolean>(false)
+  const [korish, setKorish] = useState<boolean>(false);
 
   return (
     <div style={{ padding: 16 }}>
@@ -22,10 +21,10 @@ export const Home = () => {
           textAlign: 'center',
         }}
       >
-<Title level={4} style={{ color: '#fff' }}>
-          Umumiy nasiya: {state ? "* * * * * *" : "135 214 200 so‘m"}{' '}
-          <Col style={{display:"inline-block"}} onClick={() => setState(!state)}>
-             {!state ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+        <Title level={4} style={{ color: '#fff' }}>
+          Umumiy nasiya: {korish ? '* * * * * *' : '135 214 200 so‘m'}{' '}
+          <Col style={{ display: 'inline-block' }} onClick={() => setKorish(!korish)}>
+            {!korish ? <EyeOutlined /> : <EyeInvisibleOutlined />}
           </Col>
         </Title>
       </Card>
@@ -48,7 +47,11 @@ export const Home = () => {
       <Card
         title="Hamyoningiz"
         style={{ marginTop: 16 }}
-        extra={<Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => navigate('/login')} />}
+        extra={
+          <Link href="/payment-options">
+            <Button type="primary" shape="circle" icon={<PlusOutlined />} />
+          </Link>
+        }
       >
         <Row justify="center" align="middle">
           <Col>
@@ -62,22 +65,29 @@ export const Home = () => {
         </Row>
       </Card>
 
-      {/* Pastki tugmalar (linklar) */}
+      {/* Kalendar ekrani uchun tugma */}
+      <Link href="/calendar">
+        <Button type="primary" block style={{ marginTop: 16 }}>
+          Kalendar
+        </Button>
+      </Link>
+
+      {/* Pastki linklar */}
       <Row justify="space-between" style={{ marginTop: 16 }}>
         <Col>
-          <Link>Bu oy uchun to‘lov:</Link>
+          <Text>Bu oy uchun to‘lov:</Text>
         </Col>
         <Col>
-          <Link style={{ color: '#52c41a' }}>To‘lov qilgan</Link>
+          <Text style={{ color: '#52c41a' }}>To‘lov qilgan</Text>
         </Col>
       </Row>
 
-      {/* "Click me" linkingiz, `react-router-dom` dan `RouterLink` bilan */}
-      <RouterLink to="/login" style={{ display: 'block', marginTop: 20, textAlign: 'center' }}>
-        <Title level={1}>Click me</Title>
-      </RouterLink>
+      <Link href="/login">
+        <Title level={1} style={{ display: 'block', marginTop: 20, textAlign: 'center' }}>
+          Click me
+        </Title>
+      </Link>
     </div>
   );
 };
 
-export default Home;
