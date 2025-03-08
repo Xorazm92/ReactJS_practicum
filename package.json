@@ -1,0 +1,49 @@
+{
+  "name": "nasiya_app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.67.1",
+    "@tanstack/react-query-devtools": "^5.67.1",
+    "antd": "^5.24.2",
+    "axios": "^1.8.1",
+    "i18next": "^24.2.2",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.54.2",
+    "react-i18next": "^15.4.1",
+    "react-router-dom": "^7.2.0",
+    "react-toastify": "^11.0.5",
+    "xlsx": "^0.18.5"
+  },
+  "i18n": {
+    "qr_payment": "QR To'lov",
+    "enter_amount": "Summani kiriting",
+    "generate_qr": "QR Kod Yaratish",
+    "qr_generated": "QR kod muvaffaqiyatli yaratildi!"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.26.0",
+    "vite": "^6.2.0"
+  }
+}
