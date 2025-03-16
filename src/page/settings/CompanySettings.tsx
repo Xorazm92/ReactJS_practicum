@@ -1,21 +1,14 @@
 import React from 'react';
 import { Button, Card, Form, Input, Upload, Typography, message, Spin } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, UseMutationResult } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
 
 const { Title, Text } = Typography;
 
-interface CompanyData {
-  id: string;
-  name: string;
-  logo: string;
-  details: string;
-}
 
 const CompanySettings: React.FC = () => {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   const { data: company, isLoading: companyLoading } = useQuery({
@@ -23,15 +16,16 @@ const CompanySettings: React.FC = () => {
     queryFn: () => api.get('/api/v1/admin/company').then((res) => res.data),
   });
 
-  const updateCompanyMutation = useMutation({
+  const updateCompanyMutation: UseMutationResult<any, AxiosError, FormData> = useMutation({
     mutationFn: (data: FormData) => api.patch('/api/v1/admin/company', data, {
       headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+    }), 
     onSuccess: () => {
-      message.success(t('companySettings.success'));
+      message.success('Company settings updated successfully');
     },
-    onError: () => {
-      message.error(t('companySettings.error'));
+    onError: (error: AxiosError) => {
+      const errorMessage = (error.response?.data as any)?.error?.message || 'Company settings update failed';
+      message.error(errorMessage);
     },
   });
 
@@ -47,16 +41,16 @@ const CompanySettings: React.FC = () => {
 
   const handleFileChange = (info: any) => {
     if (info.file.status === 'done') {
-      message.success(`${info.file.name} ${t('companySettings.fileUploaded')}`);
+      message.success(`${info.file.name} uploaded successfully`);
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} ${t('companySettings.fileError')}`);
+      message.error(`${info.file.name} upload failed`);
     }
   };
 
   return (
     <div className="company-settings-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('companySettings.title')}
+        Company Settings
       </Title>
 
       <Card
@@ -80,35 +74,35 @@ const CompanySettings: React.FC = () => {
             }}
           >
             <Form.Item
-              label={<Text strong style={{ color: '#4a5568' }}>{t('companySettings.nameLabel')}</Text>}
+              label={<Text strong style={{ color: '#4a5568' }}>Company Name</Text>}
               name="name"
-              rules={[{ required: true, message: t('companySettings.nameRequired') }]}
+              rules={[{ required: true, message: 'Company name is required' }]}
               hasFeedback
             >
               <Input
                 size="large"
-                placeholder={t('companySettings.namePlaceholder')}
+                placeholder="Enter company name"
                 style={{ borderRadius: 8, padding: '10px 12px', borderColor: '#d9e2ec' }}
-                aria-label={t('companySettings.nameLabel')}
+                aria-label="Company Name"
               />
             </Form.Item>
 
             <Form.Item
-              label={<Text strong style={{ color: '#4a5568' }}>{t('companySettings.detailsLabel')}</Text>}
+              label={<Text strong style={{ color: '#4a5568' }}>Company Details</Text>}
               name="details"
-              rules={[{ required: true, message: t('companySettings.detailsRequired') }]}
+              rules={[{ required: true, message: 'Company details are required' }]}
               hasFeedback
             >
               <Input.TextArea
                 rows={4}
-                placeholder={t('companySettings.detailsPlaceholder')}
+                placeholder="Enter company details"
                 style={{ borderRadius: 8, borderColor: '#d9e2ec' }}
-                aria-label={t('companySettings.detailsLabel')}
+                aria-label="Company Details"
               />
             </Form.Item>
 
             <Form.Item
-              label={<Text strong style={{ color: '#4a5568' }}>{t('companySettings.logoLabel')}</Text>}
+              label={<Text strong style={{ color: '#4a5568' }}>Logo</Text>}
               name="logo"
               valuePropName="fileList"
               getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
@@ -132,7 +126,7 @@ const CompanySettings: React.FC = () => {
                     width: '100%',
                   }}
                 >
-                  {t('companySettings.uploadButton')}
+                  Upload
                 </Button>
               </Upload>
             </Form.Item>
@@ -143,7 +137,7 @@ const CompanySettings: React.FC = () => {
                 htmlType="submit"
                 size="large"
                 block
-                disabled={updateCompanyMutation.isLoading}
+                loading={updateCompanyMutation.isLoading}
                 style={{
                   borderRadius: 8,
                   backgroundColor: updateCompanyMutation.isLoading ? '#a0aec0' : '#3182ce',
@@ -151,12 +145,10 @@ const CompanySettings: React.FC = () => {
                   height: 48,
                   fontWeight: 500,
                   boxShadow: '0 2px 6px rgba(49, 130, 206, 0.3)',
-                  transition: 'all 0.2s ease',
                 }}
-                aria-label={t('companySettings.submit')}
+                aria-label="Company Settings Submit"
               >
-                {updateCompanyMutation.isLoading && <Spin size="small" style={{ marginRight: 8 }} />}
-                {t('companySettings.submit')}
+                Submit
               </Button>
             </Form.Item>
           </Form>

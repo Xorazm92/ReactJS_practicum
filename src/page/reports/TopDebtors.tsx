@@ -2,7 +2,6 @@ import React from 'react';
 import { Table, Typography, Spin, Alert } from 'antd';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
 
 const { Title } = Typography;
 
@@ -14,7 +13,6 @@ interface TopDebtor {
 }
 
 const TopDebtors: React.FC = () => {
-  const { t } = useTranslation();
 
   const { data: topDebtors, isLoading, error } = useQuery({
     queryKey: ['topDebtors'],
@@ -23,35 +21,35 @@ const TopDebtors: React.FC = () => {
 
   const columns = [
     {
-      title: t('topDebtors.id'),
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: t('topDebtors.name'),
+      title: 'Foydalanuvchi',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: t('topDebtors.totalDebt'),
+      title: 'Jami To\'lov',
       dataIndex: 'totalDebt',
       key: 'totalDebt',
       render: (totalDebt: number) => `${totalDebt} UZS`,
     },
     {
-      title: t('topDebtors.paymentCount'),
+      title: 'To\'lovlar soni',
       dataIndex: 'paymentCount',
       key: 'paymentCount',
     },
   ];
 
   if (isLoading) return <Spin size="large" style={{ display: 'block', margin: 'auto' }} />;
-  if (error) return <Alert message={t('topDebtors.error')} type="error" style={{ margin: 24 }} />;
+  if (error) return <Alert message="Top Debtors loading failed" type="error" style={{ margin: 24 }} />;
 
   return (
     <div className="top-debtors-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('topDebtors.title')}
+        Top Debtors
       </Title>
 
       <Table
@@ -61,7 +59,7 @@ const TopDebtors: React.FC = () => {
         pagination={{ pageSize: 10 }}
         scroll={{ x: true }}
         style={{ borderRadius: 8, overflow: 'hidden' }}
-        locale={{ emptyText: t('topDebtors.noData') }}
+        locale={{ emptyText: 'No data available' }}
       />
     </div>
   );

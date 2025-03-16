@@ -3,7 +3,6 @@ import { Button, Card, Form, InputNumber, Typography, message, Spin, Select } fr
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -15,11 +14,10 @@ interface Debt {
 }
 
 const AddPayment: React.FC = () => {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  // Nasiyalar ro‘yxatini olish
+  // Nasiyalar ro'yxatini olish
   const { data: debts, isLoading: debtsLoading } = useQuery({
     queryKey: ['debts'],
     queryFn: () => api.get('/api/v1/debt').then((res) => res.data),
@@ -28,11 +26,11 @@ const AddPayment: React.FC = () => {
   const addPaymentMutation = useMutation({
     mutationFn: (data: any) => api.post('/api/v1/payments', data),
     onSuccess: () => {
-      message.success(t('addPayment.success'));
+      message.success('To\'lov muvaffaqiyatli qo\'shildi');
       navigate('/');
     },
     onError: () => {
-      message.error(t('addPayment.error'));
+      message.error('To\'lovni qo\'shishda xatolik yuz berdi');
     },
   });
 
@@ -47,7 +45,7 @@ const AddPayment: React.FC = () => {
   return (
     <div className="add-payment-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('addPayment.title')}
+        To'lov Qo'shish
       </Title>
 
       <Card
@@ -64,17 +62,17 @@ const AddPayment: React.FC = () => {
           style={{ maxWidth: 600 }}
         >
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('addPayment.debtLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Nasiya</Text>}
             name="debtId"
-            rules={[{ required: true, message: t('addPayment.debtRequired') }]}
+            rules={[{ required: true, message: 'Nasiyani tanlang' }]}
             hasFeedback
           >
             <Select
               size="large"
-              placeholder={t('addPayment.debtPlaceholder')}
+              placeholder="Nasiyani tanlang"
               loading={debtsLoading}
               style={{ borderRadius: 8 }}
-              aria-label={t('addPayment.debtLabel')}
+              aria-label="Nasiya"
             >
               {debts?.map((debt: Debt) => (
                 <Option key={debt.id} value={debt.id}>
@@ -85,14 +83,14 @@ const AddPayment: React.FC = () => {
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('addPayment.amountLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>To'lov Summasi</Text>}
             name="amount"
-            rules={[{ required: true, message: t('addPayment.amountRequired') }]}
+            rules={[{ required: true, message: 'To\'lov summasini kiriting' }]}
             hasFeedback
           >
             <InputNumber
               size="large"
-              placeholder={t('addPayment.amountPlaceholder')}
+              placeholder="To'lov summasini kiriting"
               style={{ width: '100%', borderRadius: 8 }}
               min={0}
               formatter={(value) => `${value} UZS`}
@@ -119,12 +117,12 @@ const AddPayment: React.FC = () => {
                 boxShadow: '0 2px 6px rgba(49, 130, 206, 0.3)',
                 transition: 'all 0.2s ease',
               }}
-              aria-label={t('addPayment.submit')}
+              aria-label="To'lov Qo'shish"
             >
               {addPaymentMutation.status === 'pending' && (
                 <Spin size="small" style={{ marginRight: 8 }} />
               )}
-              {t('addPayment.submit')}
+              To'lov Qo'shish
             </Button>
           </Form.Item>
         </Form>

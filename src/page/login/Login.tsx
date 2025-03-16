@@ -1,51 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Typography, Card, Spin, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import api from "../../config/request";
-import { saveState } from "../../config/storage";
-import loginImage from "../../assets/login.png";
-import { useTranslation } from "react-i18next";
+import { api } from "../../config/request"; // Sizning request faylingizdan api import qilindi
+import { loadState, saveState } from "../../config/storage"; // Token saqlash uchun
+import { useTranslation } from "react-i18next"; // Ko‘p tillilik uchun
 
 const { Title, Text } = Typography;
 
+// Login javob turi (backend bilan moslashish uchun)
 interface LoginResponse {
   accessToken: string;
   access_token_expire: string;
 }
 
+// Forma qiymatlari turi
 interface LoginFormValues {
   login: string;
   password: string;
 }
 
 const Login: React.FC = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Token borligini tekshirish va agar bor bo‘lsa, bosh sahifaga yo‘naltirish
+  const token = loadState("AccessToken");
+  useEffect(() => {
+    if (token) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
+
+  // Login so‘rovini yuborish uchun mutation
   const loginMutation = useMutation({
     mutationFn: (data: LoginFormValues) =>
-      api.post<LoginResponse>("/api/v1/auth/signin", data),
+      api.post<LoginResponse>("/api/v1/auth/signin", data), // Sizning baseURL: http://localhost:3000/api/v1/auth/signin
     onSuccess: (data) => {
       const { accessToken, access_token_expire } = data.data;
-      saveState("AccessToken", { accessToken, access_token_expire });
-      message.success(t("login.success"));
-      navigate("/", { replace: true });
+      saveState("AccessToken", { accessToken, access_token_expire }); // Token saqlash
+      message.success("Tizimga muvaffaqiyatli kirdingiz!");
+      navigate("/", { replace: true }); // Bosh sahifaga yo‘naltirish
     },
     onError: (error: any) => {
-      const errorMessage = error.response?.data?.error?.message || t("login.error");
-      message.error(errorMessage);
+      const errorMessage = error.response?.data?.error?.message || "Login yoki parol noto'g'ri!";
       form.setFields([
-        { name: "login", errors: [errorMessage] },
+        { name: "login", errors: [errorMessage] }, // "Login yoki parol noto‘g‘ri!"
         { name: "password", errors: [errorMessage] },
       ]);
+      message.error(errorMessage);
     },
-    onSettled: () => setIsLoading(false),
+    onSettled: () => setIsLoading(false), // Yuklanish holatini tugatish
   });
 
+  // Forma yuborilganda ishlaydigan funksiya
   const onFinish = (values: LoginFormValues) => {
     setIsLoading(true);
     loginMutation.mutate({
@@ -56,35 +66,28 @@ const Login: React.FC = () => {
 
   return (
     <div
-      className="login-container"
       style={{
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(135deg, #e6f7ff 0%, #f0f4f8 100%)",
+        background: "linear-gradient(135deg, #e6f7ff 0%, #f0f4f8 100%)", // Chiroyli gradient fon
         padding: "16px",
       }}
     >
       <Card
-        className="login-card"
         style={{
           width: "100%",
           maxWidth: 450,
           borderRadius: 12,
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Soyali dizayn
           padding: "24px",
           background: "#fff",
         }}
       >
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <img
-            src={loginImage}
-            alt={t("login.logoAlt")}
-            style={{ maxWidth: "120px", height: "auto", marginBottom: 16 }}
-          />
           <Title level={3} style={{ color: "#1a202c", margin: 0 }}>
-            {t("login.title")}
+            Tizimga Kirish
           </Title>
         </div>
 
@@ -96,34 +99,37 @@ const Login: React.FC = () => {
           style={{ maxWidth: 400, margin: "0 auto" }}
           initialValues={{ remember: true }}
         >
+          {/* Login maydoni */}
           <Form.Item
-            label={<Text strong style={{ color: "#4a5568" }}>{t("login.loginLabel")}</Text>}
+            label={<Text strong>Login</Text>}
             name="login"
-            rules={[{ required: true, message: t("login.loginRequired") }]}
+            rules={[{ required: true, message: "Loginni kiriting!" }]}
             hasFeedback
           >
             <Input
               prefix={<UserOutlined style={{ color: "#a0aec0" }} />}
               size="large"
-              placeholder={t("login.loginPlaceholder")}
-              style={{ borderRadius: 8, padding: "10px 12px", borderColor: "#d9e2ec" }}
+              placeholder="Login kiriting"
+              style={{ borderRadius: 8, padding: "10px 12px" }}
             />
           </Form.Item>
 
+          {/* Parol maydoni */}
           <Form.Item
-            label={<Text strong style={{ color: "#4a5568" }}>{t("login.passwordLabel")}</Text>}
+            label={<Text strong>Parol</Text>}
             name="password"
-            rules={[{ required: true, message: t("login.passwordRequired") }]}
+            rules={[{ required: true, message: "Parolni kiriting!" }]}
             hasFeedback
           >
             <Input.Password
               prefix={<LockOutlined style={{ color: "#a0aec0" }} />}
               size="large"
-              placeholder={t("login.passwordPlaceholder")}
-              style={{ borderRadius: 8, padding: "10px 12px", borderColor: "#d9e2ec" }}
+              placeholder="Parol kiriting"
+              style={{ borderRadius: 8, padding: "10px 12px" }}
             />
           </Form.Item>
 
+          {/* Kirish tugmasi */}
           <Form.Item>
             <Button
               type="primary"
@@ -137,16 +143,16 @@ const Login: React.FC = () => {
                 borderColor: isLoading ? "#a0aec0" : "#3182ce",
                 height: 48,
                 fontWeight: 500,
-                boxShadow: "0 2px 6px rgba(49, 130, 206, 0.3)",
               }}
             >
               {isLoading && <Spin size="small" style={{ marginRight: 8 }} />}
-              {t("login.submit")}
+              Kirish
             </Button>
           </Form.Item>
 
-          <Text style={{ display: "block", textAlign: "center", marginTop: 16, color: "#4a5568" }}>
-            {t("login.forgot")}{" "}
+          {/* Parolni unutdingizmi? */}
+          <Text style={{ display: "block", textAlign: "center", color: "#4a5568" }}>
+            Parolingizni unutdingizmi?{" "}
             <a
               href="#"
               onClick={(e) => {
@@ -155,7 +161,7 @@ const Login: React.FC = () => {
               }}
               style={{ color: "#3182ce", fontWeight: 500 }}
             >
-              {t("login.forgotLink")}
+              Parolni tiklash
             </a>
           </Text>
         </Form>

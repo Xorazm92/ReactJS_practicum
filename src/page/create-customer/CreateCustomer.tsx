@@ -2,28 +2,28 @@ import React from 'react';
 import { Button, Card, Form, Input, Upload, Typography, message, Spin, Select, DatePicker } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { api } from '../../config/request';
+import { AxiosError } from 'axios';
 
 const { Title, Text } = Typography;
 
-const CreateCustomer: React .FC = () => {
-  const { t } = useTranslation();
+const CreateCustomer: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  const createCustomerMutation = useMutation({
+  const createCustomerMutation: UseMutationResult<any, AxiosError, FormData> = useMutation({
     mutationFn: (data: FormData) =>
       api.post('/api/v1/debtors', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       }),
     onSuccess: () => {
-      message.success(t('createCustomer.success'));
+      message.success('Mijoz muvaffaqiyatli yaratildi!');
       navigate('/');
     },
-    onError: () => {
-      message.error(t('createCustomer.error'));
+    onError: (error: AxiosError) => {
+      const errorMessage = (error.response?.data as any)?.error?.message || 'Mijozni yaratishda xatolik yuz berdi!';
+      message.error(errorMessage);
     },
   });
 
@@ -41,16 +41,16 @@ const CreateCustomer: React .FC = () => {
 
   const handleFileChange = (info: any) => {
     if (info.file.status === 'done') {
-      message.success(`${info.file.name} ${t('createCustomer.fileUploaded')}`);
+      message.success(`${info.file.name} fayli yuklandi`);
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} ${t('createCustomer.fileError')}`);
+      message.error(`${info.file.name} faylini yuklashda xatolik yuz berdi`);
     }
   };
 
   return (
     <div className="create-customer-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('createCustomer.title')}
+        Mijoz Yaratish
       </Title>
 
       <Card
@@ -67,52 +67,52 @@ const CreateCustomer: React .FC = () => {
           style={{ maxWidth: 600 }}
         >
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createCustomer.nameLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Mijoz Ismi</Text>}
             name="name"
-            rules={[{ required: true, message: t('createCustomer.nameRequired') }]}
+            rules={[{ required: true, message: 'Mijoz ismini kiriting!' }]}
             hasFeedback
           >
             <Input
               size="large"
-              placeholder={t('createCustomer.namePlaceholder')}
+              placeholder="Mijoz ismini kiriting"
               style={{ borderRadius: 8, padding: '10px 12px', borderColor: '#d9e2ec' }}
-              aria-label={t('createCustomer.nameLabel')}
+              aria-label="Mijoz Ismi"
             />
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createCustomer.phoneLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Telefon Raqami</Text>}
             name="phone"
-            rules={[{ required: true, message: t('createCustomer.phoneRequired') }]}
+            rules={[{ required: true, message: 'Telefon raqamini kiriting!' }]}
             hasFeedback
           >
             <Input
               size="large"
-              placeholder={t('createCustomer.phonePlaceholder')}
+              placeholder="Telefon raqamini kiriting"
               style={{ borderRadius: 8, padding: '10px 12px', borderColor: '#d9e2ec' }}
-              aria-label={t('createCustomer.phoneLabel')}
+              aria-label="Telefon Raqami"
             />
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createCustomer.addressLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Manzil</Text>}
             name="address"
             rules={[{ required: false }]}
           >
             <Input
               size="large"
-              placeholder={t('createCustomer.addressPlaceholder')}
+              placeholder="Manzilni kiriting (ixtiyoriy)"
               style={{ borderRadius: 8, padding: '10px 12px', borderColor: '#d9e2ec' }}
-              aria-label={t('createCustomer.addressLabel')}
+              aria-label="Manzil"
             />
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createCustomer.passportLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Passport Rasmi</Text>}
             name="passportImage"
             valuePropName="fileList"
             getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-            rules={[{ required: true, message: t('createCustomer.passportRequired') }]}
+            rules={[{ required: true, message: 'Passport rasmini yuklang!' }]}
             hasFeedback
           >
             <Upload
@@ -135,7 +135,7 @@ const CreateCustomer: React .FC = () => {
                   width: '100%',
                 }}
               >
-                {t('createCustomer.uploadButton')}
+                Passport Rasmini Yuklash
               </Button>
             </Upload>
           </Form.Item>
@@ -146,20 +146,18 @@ const CreateCustomer: React .FC = () => {
               htmlType="submit"
               size="large"
               block
-              disabled={createCustomerMutation.status === 'pending'}
+              loading={createCustomerMutation.isLoading}
               style={{
                 borderRadius: 8,
-                backgroundColor: createCustomerMutation.status === 'pending' ? '#a0aec0' : '#3182ce',
-                borderColor: createCustomerMutation.status === 'pending' ? '#a0aec0' : '#3182ce',
+                backgroundColor: createCustomerMutation.isLoading ? '#a0aec0' : '#3182ce',
+                borderColor: createCustomerMutation.isLoading ? '#a0aec0' : '#3182ce',
                 height: 48,
                 fontWeight: 500,
                 boxShadow: '0 2px 6px rgba(49, 130, 206, 0.3)',
-                transition: 'all 0.2s ease',
               }}
-              aria-label={t('createCustomer.submit')}
+              aria-label="Mijoz Yaratish"
             >
-              {createCustomerMutation.status === 'pending' && <Spin size="small" style={{ marginRight: 8 }} />}
-              {t('createCustomer.submit')}
+              Mijoz Yaratish
             </Button>
           </Form.Item>
         </Form>

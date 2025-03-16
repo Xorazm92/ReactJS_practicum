@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Form, Switch, Typography, message, Spin } from 'antd';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
 
 const { Title, Text } = Typography;
 
@@ -12,7 +12,6 @@ interface NotificationSettingsData {
 }
 
 const NotificationSettings: React.FC = () => {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   const { data: settings, isLoading: settingsLoading } = useQuery({
@@ -23,10 +22,10 @@ const NotificationSettings: React.FC = () => {
   const updateSettingsMutation = useMutation({
     mutationFn: (data: NotificationSettingsData) => api.patch('/api/v1/admin/notifications', data),
     onSuccess: () => {
-      message.success(t('notificationSettings.success'));
+      message.success('Notification settings updated successfully');
     },
     onError: () => {
-      message.error(t('notificationSettings.error'));
+      message.error('Notification settings update failed');
     },
   });
 
@@ -37,7 +36,7 @@ const NotificationSettings: React.FC = () => {
   return (
     <div className="notification-settings-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('notificationSettings.title')}
+        Notification Settings
       </Title>
 
       <Card
@@ -61,19 +60,19 @@ const NotificationSettings: React.FC = () => {
             }}
           >
             <Form.Item
-              label={<Text strong style={{ color: '#4a5568' }}>{t('notificationSettings.smsLabel')}</Text>}
+              label={<Text strong style={{ color: '#4a5568' }}>SMS Notifications</Text>}
               name="smsEnabled"
               valuePropName="checked"
             >
-              <Switch aria-label={t('notificationSettings.smsLabel')} />
+              <Switch aria-label="SMS Notifications" />
             </Form.Item>
 
             <Form.Item
-              label={<Text strong style={{ color: '#4a5568' }}>{t('notificationSettings.emailLabel')}</Text>}
+              label={<Text strong style={{ color: '#4a5568' }}>Email Notifications</Text>}
               name="emailEnabled"
               valuePropName="checked"
             >
-              <Switch aria-label={t('notificationSettings.emailLabel')} />
+              <Switch aria-label="Email Notifications" />
             </Form.Item>
 
             <Form.Item style={{ marginTop: 24 }}>
@@ -92,10 +91,10 @@ const NotificationSettings: React.FC = () => {
                   boxShadow: '0 2px 6px rgba(49, 130, 206, 0.3)',
                   transition: 'all 0.2s ease',
                 }}
-                aria-label={t('notificationSettings.submit')}
+                aria-label="Notification Settings Submit"
               >
                 {updateSettingsMutation.status === 'pending' && <Spin size="small" style={{ marginRight: 8 }} />}
-                {t('notificationSettings.submit')}
+                Submit
               </Button>
             </Form.Item>
           </Form>

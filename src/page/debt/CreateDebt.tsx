@@ -3,7 +3,6 @@ import { Button, Card, Form, Input, InputNumber, Typography, message, Spin, Sele
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -14,7 +13,6 @@ interface Debtor {
 }
 
 const CreateDebt: React.FC = () => {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -27,11 +25,11 @@ const CreateDebt: React.FC = () => {
   const createDebtMutation = useMutation({
     mutationFn: (data: any) => api.post('/api/v1/debt', data),
     onSuccess: () => {
-      message.success(t('createDebt.success'));
+      message.success('Nasiya muvaffaqiyatli yaratildi!');
       navigate('/');
     },
     onError: () => {
-      message.error(t('createDebt.error'));
+      message.error('Nasiyani yaratishda xatolik yuz berdi!');
     },
   });
 
@@ -48,7 +46,7 @@ const CreateDebt: React.FC = () => {
   return (
     <div className="create-debt-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('createDebt.title')}
+        Yangi Nasiya Yaratish
       </Title>
 
       <Card
@@ -65,17 +63,17 @@ const CreateDebt: React.FC = () => {
           style={{ maxWidth: 600 }}
         >
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createDebt.debtorLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Mijoz</Text>}
             name="debtorId"
-            rules={[{ required: true, message: t('createDebt.debtorRequired') }]}
+            rules={[{ required: true, message: 'Mijozni tanlang!' }]}
             hasFeedback
           >
             <Select
               size="large"
-              placeholder={t('createDebt.debtorPlaceholder')}
+              placeholder="Mijozni tanlang"
               loading={debtorsLoading}
               style={{ borderRadius: 8 }}
-              aria-label={t('createDebt.debtorLabel')}
+              aria-label="Mijoz"
             >
               {debtors?.map((debtor: Debtor) => (
                 <Option key={debtor.id} value={debtor.id}>
@@ -86,47 +84,47 @@ const CreateDebt: React.FC = () => {
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createDebt.amountLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Miqdor</Text>}
             name="amount"
-            rules={[{ required: true, message: t('createDebt.amountRequired') }]}
+            rules={[{ required: true, message: 'Miqdorni kiriting!' }]}
             hasFeedback
           >
             <InputNumber
               size="large"
-              placeholder={t('createDebt.amountPlaceholder')}
+              placeholder="Miqdorni kiriting"
               style={{ width: '100%', borderRadius: 8 }}
               min={0}
               formatter={(value) => `${value} UZS`}
               parser ={() => 0}
-              aria-label={t('createDebt.amountLabel')}
+              aria-label="Miqdor"
             />
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createDebt.descriptionLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Tavsif</Text>}
             name="description"
-            rules={[{ required: true, message: t('createDebt.descriptionRequired') }]}
+            rules={[{ required: true, message: 'Tavsifni kiriting!' }]}
             hasFeedback
           >
             <Input
               size="large"
-              placeholder={t('createDebt.descriptionPlaceholder')}
+              placeholder="Tavsif kiriting (masalan, mahsulot nomi)"
               style={{ borderRadius: 8, padding: '10px 12px', borderColor: '#d9e2ec' }}
-              aria-label={t('createDebt.descriptionLabel')}
+              aria-label="Tavsif"
             />
           </Form.Item>
 
           <Form.Item
-            label={<Text strong style={{ color: '#4a5568' }}>{t('createDebt.dueDateLabel')}</Text>}
+            label={<Text strong style={{ color: '#4a5568' }}>Muddat</Text>}
             name="dueDate"
-            rules={[{ required: true, message: t('createDebt.dueDateRequired') }]}
+            rules={[{ required: true, message: 'Muddatni kiriting!' }]}
             hasFeedback
           >
             <Input
               type="date"
               size="large"
               style={{ borderRadius: 8, padding: '10px 12px', borderColor: '#d9e2ec' }}
-              aria-label={t('createDebt.dueDateLabel')}
+              aria-label="Muddat"
             />
           </Form.Item>
 
@@ -146,10 +144,10 @@ const CreateDebt: React.FC = () => {
                 boxShadow: '0 2px 6px rgba(49, 130, 206, 0.3)',
                 transition: 'all 0.2s ease',
               }}
-              aria-label={t('createDebt.submit')}
+              aria-label="Saqlash"
             >
               {createDebtMutation.status === 'pending' && <Spin size="small" style={{ marginRight: 8 }} />}
-              {t('createDebt.submit')}
+              Saqlash
             </Button>
           </Form.Item>
         </Form>

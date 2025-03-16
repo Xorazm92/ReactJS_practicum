@@ -3,14 +3,11 @@ import { Button, Card, Typography, message, Upload } from 'antd';
 import { UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
 import * as XLSX from 'xlsx';
 
 const { Title, Text } = Typography;
 
 const ExportImport: React.FC = () => {
-  const { t } = useTranslation();
-
   const exportDataMutation = useMutation({
     mutationFn: () => api.get('/api/v1/store-statistics/export').then((res) => res.data),
     onSuccess: (data) => {
@@ -18,20 +15,20 @@ const ExportImport: React.FC = () => {
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
       XLSX.writeFile(workbook, 'statistics.xlsx');
-      message.success(t('exportImport.exportSuccess'));
+      message.success('Ma\'lumotlar muvaffaqiyatli eksport qilindi');
     },
     onError: () => {
-      message.error(t('exportImport.exportError'));
+      message.error('Ma\'lumotlarni eksport qilishda xatolik yuz berdi');
     },
   });
 
   const importDataMutation = useMutation({
     mutationFn: (data: any) => api.post('/api/v1/store-statistics/import', data),
     onSuccess: () => {
-      message.success(t('exportImport.importSuccess'));
+      message.success('Ma\'lumotlar muvaffaqiyatli import qilindi');
     },
     onError: () => {
-      message.error(t('exportImport.importError'));
+      message.error('Ma\'lumotlarni import qilishda xatolik yuz berdi');
     },
   });
 
@@ -55,7 +52,7 @@ const ExportImport: React.FC = () => {
   return (
     <div className="export-import-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('exportImport.title')}
+        Ma'lumotlarni Eksport/Import Qilish
       </Title>
 
       <Card
@@ -83,9 +80,9 @@ const ExportImport: React.FC = () => {
               transition: 'all 0.2s ease',
               marginRight: 16,
             }}
-            aria-label={t('exportImport.export')}
+            aria-label="Eksport"
           >
-            {t('exportImport.export')}
+            Eksport
           </Button>
 
           <Upload
@@ -108,15 +105,15 @@ const ExportImport: React.FC = () => {
                 boxShadow: '0 2px 6px rgba(49, 130, 206, 0.3)',
                 transition: 'all 0.2s ease',
               }}
-              aria-label={t('exportImport.import')}
+              aria-label="Import"
             >
-              {t('exportImport.import')}
+              Import
             </Button>
           </Upload>
         </div>
 
         <Text style={{ color: '#4a5568' }}>
-          {t('exportImport.description')}
+          Excel formatidagi ma'lumotlarni eksport va import qilish uchun quyidagi tugmalardan foydalaning
         </Text>
       </Card>
     </div>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Calendar as AntCalendar, Badge, Card, Typography } from 'antd';
 import type { Dayjs } from 'dayjs';
-import { useTranslation } from 'react-i18next';
 
 const { Title } = Typography;
 
@@ -11,7 +10,6 @@ interface PaymentEvent {
 }
 
 const Calendar: React.FC = () => {
-  const { t } = useTranslation();
   
   // Bu funksiya har bir kun uchun to'lovlar ro'yxatini qaytaradi
   const getListData = (value: Dayjs) => {

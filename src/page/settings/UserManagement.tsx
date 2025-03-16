@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Typography, Spin, Alert, Button, Space, message } from 'antd';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import api from '../../config/request';
-import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
 
 const { Title } = Typography;
 
@@ -14,7 +14,6 @@ interface User {
 }
 
 const UserManagement: React.FC = () => {
-  const { t } = useTranslation();
 
   const { data: users, isLoading, error, refetch } = useQuery({
     queryKey: ['users'],
@@ -24,55 +23,55 @@ const UserManagement: React.FC = () => {
   const deleteUserMutation = useMutation({
     mutationFn: (userId: string) => api.delete(`/api/v1/admin/users/${userId}`),
     onSuccess: () => {
-      message.success(t('userManagement.deleteSuccess'));
+      message.success('User deleted successfully');
       refetch();
     },
     onError: () => {
-      message.error(t('userManagement.deleteError'));
+      message.error('User deletion failed');
     },
   });
 
   const columns = [
     {
-      title: t('userManagement.id'),
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: t('userManagement.name'),
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: t('userManagement.email'),
+      title: 'Email',
       dataIndex: 'email',
       key: 'email',
     },
     {
-      title: t('userManagement.role'),
+      title: 'Role',
       dataIndex: 'role',
       key: 'role',
     },
     {
-      title: t('userManagement.actions'),
+      title: 'Actions',
       key: 'actions',
       render: (_: any, record: User) => (
         <Space size="middle">
           <Button
             type="primary"
-            onClick={() => message.info(t('userManagement.editNotImplemented'))}
-            aria-label={t('userManagement.edit')}
+            onClick={() => message.info('Edit not implemented')}
+            aria-label="Edit User"
           >
-            {t('userManagement.edit')}
+            Edit
           </Button>
           <Button
             type="primary"
             danger
             onClick={() => deleteUserMutation.mutate(record.id)}
             disabled={deleteUserMutation.status === 'pending'}
-            aria-label={t('userManagement.delete')}
+            aria-label="Delete User"
           >
-            {t('userManagement.delete')}
+            Delete
           </Button>
         </Space>
       ),
@@ -80,12 +79,12 @@ const UserManagement: React.FC = () => {
   ];
 
   if (isLoading) return <Spin size="large" style={{ display: 'block', margin: 'auto' }} />;
-  if (error) return <Alert message={t('userManagement.error')} type="error" style={{ margin: 24 }} />;
+  if (error) return <Alert message="User management error" type="error" style={{ margin: 24 }} />;
 
   return (
     <div className="user-management-container" style={{ padding: 24 }}>
       <Title level={3} style={{ color: '#1a202c', marginBottom: 24 }}>
-        {t('userManagement.title')}
+        User Management
       </Title>
 
       <Table
@@ -95,7 +94,7 @@ const UserManagement: React.FC = () => {
         pagination={{ pageSize: 10 }}
         scroll={{ x: true }}
         style={{ borderRadius: 8, overflow: 'hidden' }}
-        locale={{ emptyText: t('userManagement.noData') }}
+        locale={{ emptyText: 'No data' }}
       />
     </div>
   );

@@ -12,140 +12,166 @@ import {
   ShopOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, Avatar, Typography, Space, Dropdown, Badge, message } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { loadState } from '../config/storage';
 import { api } from '../config/request';
-import { useTranslation } from 'react-i18next';
+import { debounce } from 'lodash'
 
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;
 
 const MainLayout: React.FC = () => {
-  const { t } = useTranslation();
   const [collapsed, setCollapsed] = React.useState(false);
   const { token } = theme.useToken();
 
   const user = loadState('user');
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Barcha navigatsiya chaqiruvlarini debounce qilish
+  const debouncedNavigate = React.useMemo(
+    () => debounce((path: string, options?: { replace?: boolean; state?: any }) => {
+      navigate(path, options);
+    }, 300), // 300ms kutish
+    [navigate]
+  );
+
+  // Navigatsiya mantiqini bitta useEffect ichiga jamlab qo'yish
   React.useEffect(() => {
-    if (!user) {
-      navigate('/login');
+    // Faqat user yo'q bo'lsa va hozirgi sahifa login sahifasi bo'lmasa navigatsiya qil
+    if (!user && location.pathname !== '/login') {
+      debouncedNavigate('/login', { 
+        replace: true, 
+        state: { from: location } 
+      });
     }
-  }, [user, navigate]);
+  }, [user, debouncedNavigate, location]);
 
   const handleLogout = async () => {
     try {
       await api.post('/api/v1/auth/logout');
       localStorage.removeItem('user');
-      navigate('/login');
+      
+      // Debounce qilingan navigate
+      debouncedNavigate('/login', { 
+        replace: true,
+        state: { from: location }
+      });
     } catch (error) {
-      message.error(t('layout.logoutError'));
+      message.error('Chiqishda xatolik yuz berdi!');
     }
   };
 
-  const profileMenu = (
-    <Menu>
-      <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate('/profile')}>
-        {t('layout.profile')}
-      </Menu.Item>
-      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={handleLogout}>
-        {t('layout.logout')}
-      </Menu.Item>
-    </Menu>
-  );
-
+  // Menu elementlarini debounce qilingan navigatsiya bilan yangilash
   const menuItems = [
     {
       key: '1',
       icon: <UserOutlined />,
-      label: t('layout.home'),
-      onClick: () => navigate('/'),
+      label: 'Bosh Sahifa',
+      onClick: () => debouncedNavigate('/'),
     },
     {
       key: '2',
       icon: <UserOutlined />,
-      label: t('layout.createCustomer'),
-      onClick: () => navigate('/create-customer'),
+      label: 'Mijoz Yaratish',
+      onClick: () => debouncedNavigate('/create-customer'),
     },
     {
       key: '3',
       icon: <DollarOutlined />,
-      label: t('layout.createDebt'),
-      onClick: () => navigate('/create-debt'),
+      label: 'Nasiya Berish',
+      onClick: () => debouncedNavigate('/create-debt'),
     },
     {
       key: '4',
       icon: <DollarOutlined />,
-      label: t('layout.addPayment'),
-      onClick: () => navigate('/add-payment'),
+      label: "To'lov Qabul Qilish",
+      onClick: () => debouncedNavigate('/add-payment'),
     },
     {
       key: '5',
       icon: <DollarOutlined />,
-      label: t('layout.paymentHistory'),
-      onClick: () => navigate('/payment-history'),
+      label: "To'lov Tarixi",
+      onClick: () => debouncedNavigate('/payment-history'),
     },
     {
       key: '6',
       icon: <QrcodeOutlined />,
-      label: t('layout.qrPayment'),
-      onClick: () => navigate('/qr-payment'),
+      label: 'QR Kod orqali To\'lov',
+      onClick: () => debouncedNavigate('/qr-payment'),
     },
     {
       key: '7',
       icon: <DatabaseOutlined />,
-      label: t('layout.reports'),
+      label: 'Hisobotlar',
       children: [
         {
           key: '7-1',
-          label: t('layout.calendar'),
-          onClick: () => navigate('/calendar'),
+          label: 'Kalendar',
+          onClick: () => debouncedNavigate('/calendar'),
         },
         {
           key: '7-2',
-          label: t('layout.latePayments'),
-          onClick: () => navigate('/late-payments'),
+          label: "Kechiktirilgan To'lovlar",
+          onClick: () => debouncedNavigate('/late-payments'),
         },
         {
           key: '7-3',
-          label: t('layout.topDebtors'),
-          onClick: () => navigate('/top-debtors'),
+          label: 'Eng Faol Mijozlar',
+          onClick: () => debouncedNavigate('/top-debtors'),
         },
         {
           key: '7-4',
-          label: t('layout.exportImport'),
-          onClick: () => navigate('/export-import'),
+          label: 'Excel Eksport/Import',
+          onClick: () => debouncedNavigate('/export-import'),
         },
       ],
     },
     {
       key: '8',
       icon: <SettingOutlined />,
-      label: t('layout.settings'),
+      label: 'Sozlamalar',
       children: [
         {
           key: '8-1',
-          label: t('layout.companySettings'),
-          onClick: () => navigate('/company-settings'),
+          label: 'Kompaniya Sozlamalari',
+          onClick: () => debouncedNavigate('/company-settings'),
         },
         ...(user?.role === 'admin'
           ? [
               {
                 key: '8-2',
-                label: t('layout.userManagement'),
-                onClick: () => navigate('/user-management'),
+                label: 'Foydalanuvchilar',
+                onClick: () => debouncedNavigate('/user-management'),
               },
             ]
           : []),
         {
           key: '8-3',
-          label: t('layout.notificationSettings'),
-          onClick: () => navigate('/notification-settings'),
+          label: 'Bildirishnoma Sozlamalari',
+          onClick: () => debouncedNavigate('/notification-settings'),
         },
       ],
     },
   ];
+
+  // Dropdown menyu elementlarini yangilash
+  const profileMenu = {
+    items: [
+      {
+        key: '1', 
+        icon: <UserOutlined />, 
+        label: 'Profil',
+        onClick: () => debouncedNavigate('/profile')
+      },
+      {
+        key: '2', 
+        icon: <LogoutOutlined />, 
+        label: 'Chiqish',
+        onClick: handleLogout
+      }
+    ]
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -176,7 +202,7 @@ const MainLayout: React.FC = () => {
           }} />
           {!collapsed && (
             <Typography.Title level={4} style={{ color: '#fff', margin: '16px 0 0' }}>
-              {t('app_name')}
+              Nasiya
             </Typography.Title>
           )}
         </div>
@@ -217,10 +243,13 @@ const MainLayout: React.FC = () => {
             <Badge count={5} dot>
               <BellOutlined style={{ fontSize: '20px' }} />
             </Badge>
-            <Dropdown overlay={profileMenu} placement="bottomRight">
+            <Dropdown 
+              menu={profileMenu} 
+              placement="bottomRight"
+            >
               <Space style={{ cursor: 'pointer' }}>
                 <Avatar icon={<UserOutlined />} />
-                <Text>{user?.name || t('layout.user')}</Text>
+                <Text>{user?.name || 'Foydalanuvchi'}</Text>
               </Space>
             </Dropdown>
           </Space>

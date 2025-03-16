@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { Typography, Card, Avatar, Descriptions, Button } from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
 
 const { Title } = Typography;
 
 const UserProfile: React.FC = () => {
-  const { t } = useTranslation();
   
   // Foydalanuvchi ma'lumotlari (amalda bu ma'lumotlar API dan olinadi)
   const userInfo = {

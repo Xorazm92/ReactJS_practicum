@@ -1,21 +1,18 @@
-import { QRCodeCanvas } from 'qrcode.react'; // To'g'ri import usuli
+import { QRCodeCanvas } from 'qrcode.react';
 import { Button, Card, Input, Typography, message } from 'antd';
-import { useTranslation } from 'react-i18next';
 import React from 'react';
-
 
 const { Title } = Typography;
 
 const QRPayment = () => {
-  const { t } = useTranslation();
   const [qrValue, setQrValue] = React.useState('');
 
   return (
     <div style={{ padding: '20px' }}>
-      <Title level={3}>{t('qr_payment')}</Title>
+      <Title level={3}>QR To'lov</Title>
       <Card>
         <Input 
-          placeholder={t('enter_amount')}
+          placeholder="Summani kiriting"
           onChange={(e: { target: { value: any; }; }) => setQrValue(e.target.value)}
           style={{ marginBottom: 20 }}
         />
@@ -29,9 +26,9 @@ const QRPayment = () => {
         <Button 
           type="primary" 
           style={{ marginTop: 20 }}
-          onClick={() => message.success(t('qr_generated'))}
+          onClick={() => message.success('QR kod muvaffaqiyatli yaratildi')}
         >
-          {t('generate_qr')}
+          QR Kod Yaratish
         </Button>
       </Card>
     </div>

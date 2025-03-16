@@ -9,3 +9,6 @@ export const api = request;
 
 // Default export qo'shish
 export default request;
+
+
+

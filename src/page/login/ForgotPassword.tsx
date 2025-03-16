@@ -4,12 +4,10 @@ import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import api from "../../config/request";
-import { useTranslation } from "react-i18next";
 
 const { Title, Text } = Typography;
 
 const ForgotPassword: React.FC = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
