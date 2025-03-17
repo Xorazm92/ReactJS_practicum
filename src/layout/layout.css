@@ -1,0 +1,8 @@
+.logout_btn {
+  width: 100%;
+  padding: 25px 0px;
+  font-weight: 600;
+  font-size: 16px;
+  display: "flex";
+  align-items: center;
+}

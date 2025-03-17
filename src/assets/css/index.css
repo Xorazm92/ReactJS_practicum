@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --text: #263a5b;
+  --brand: #1e6eeb;
+  --brand-01: #4ba06c;
+	--secondary-color: #735cd8;
+  --secondary-01: #5564d7;
+  --secondary-02: #f1be5b;
+  --secondary-03: #64d26f;
+  --secondary-01: #e04b43;
+  --primary-01: #2d2d2d;
+  --primary-02: #fff;
+  --bg-grey: #f8f8f8;
+  --fon-color: #f6f6f6;
+  --neutral-01: #36414f;
+  --neutral-02: #828fa2;
+  --neutral-03: #c0c7d0;
+  --neutral-04: #e2e8ed;
+  --neutral-05: #fff;
+}
+

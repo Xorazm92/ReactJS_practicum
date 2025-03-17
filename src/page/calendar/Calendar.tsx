@@ -63,7 +63,7 @@ const Calendar: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <Title level={2}>{t('calendar')}</Title>
+      <Title level={2}>{('calendar')}</Title>
       <Card>
         <AntCalendar
           cellRender={dateCellRender}
