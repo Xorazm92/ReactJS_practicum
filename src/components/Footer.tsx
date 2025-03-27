@@ -5,41 +5,44 @@ import { BsTelephoneOutbound } from 'react-icons/bs'
 
 const Footer: React.FC = () => {
   return (
-    <div className="mt-[2vh]">
-      <div className="flex text-[14px] font-normal px-4 py-[26px] bg-[#edf6ef] cursor-pointer justify-between items-center">
-        <Image src="/logo.svg" alt="logo" width={150} height={35} />
-        <p className="flex items-center gap-3">
-          <MdOutlineLocationOn />
-          70 West Buckingham Ave. Farmingdale, NY 11735
-        </p>
-        <p className="flex items-center gap-3">
-          <MdOutlineMailOutline />
-          contact@greenshop.com
-        </p>
-        <p className="flex items-center gap-3">
-          <BsTelephoneOutbound />
-          +88 01911 717 490
-        </p>
-      </div>
-      <footer className="flex bg-[#FBFBFB] py-3 px-3 justify-between items-start mt-[5vh]">
-        <div className="flex flex-col items-start gap-1">
-          <h3 className="text-[19px] font-bold">My Account</h3>
-          <p className="text-[14px] font-normal">My Account</p>
-          <p className="text-[14px] font-normal">Our stores</p>
-          <p className="text-[14px] font-normal">Contact us</p>
-          <p className="text-[14px] font-normal">Career</p>
+    <div className="w-full bg-[#fbfbfb] py-[32px]">
+      <div className="container mx-auto flex justify-between">
+        <div className="flex flex-col gap-[10px]">
+          <h3 className="text-[18px] font-bold">Garden Care</h3>
+          <div className="flex flex-col gap-[10px]">
+            <span className="text-[14px] font-normal text-[grey] opacity-1">
+              We are an online plant shop offering a wide range of cheap and trendy plants.
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col items-start gap-1">
-          <h3 className="text-[19px] font-bold">Help & Guide</h3>
-          <p className="text-[14px] font-normal">Help Center</p>
-          <p className="text-[14px] font-normal">How to Buy</p>
-          <p className="text-[14px] font-normal">Shipping & Delivery</p>
+        <div className="flex flex-col gap-[10px]">
+          <h3 className="text-[18px] font-bold">Plant Categories</h3>
+          <div className="flex flex-col gap-[10px]">
+            <span className="text-[14px] font-normal text-[grey] opacity-1">House Plants</span>
+            <span className="text-[14px] font-normal text-[grey] opacity-1">Potter Plants</span>
+            <span className="text-[14px] font-normal text-[grey] opacity-1">Seeds</span>
+            <span className="text-[14px] font-normal text-[grey] opacity-1">Small Plants</span>
+          </div>
         </div>
-      </footer>
-      <div className="w-full h-[1px] bg-[#e1e1e1] mt-[14px]">
-        <p className="text-center font-normal text-[14px] mt-3">
-          © 2021 GreenShop. All Rights Reserved.
-        </p>
+        <div className="flex flex-col gap-[10px]">
+          <h3 className="text-[18px] font-bold">Contact Us</h3>
+          <div className="flex flex-col gap-[10px]">
+            <div className="flex items-center gap-[10px]">
+              <MdOutlineLocationOn />
+              <span className="text-[14px] font-normal text-[grey] opacity-1">
+                70 West Buckingham Ave. NY 11735
+              </span>
+            </div>
+            <div className="flex items-center gap-[10px]">
+              <BsTelephoneOutbound />
+              <span className="text-[14px] font-normal text-[grey] opacity-1">+1 123-456-7890</span>
+            </div>
+            <div className="flex items-center gap-[10px]">
+              <MdOutlineMailOutline />
+              <span className="text-[14px] font-normal text-[grey] opacity-1">info@greenshop.com</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
