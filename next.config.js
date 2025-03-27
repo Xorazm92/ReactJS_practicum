@@ -3,7 +3,12 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  transpilePackages: ['rc-util', 'antd', '@ant-design/icons'],
+  transpilePackages: ['@ant-design/icons', '@ant-design/icons-svg'],
+  modularizeImports: {
+    '@ant-design/icons': {
+      transform: '@ant-design/icons/lib/icons/${member}',
+    },
+  }
 }
 
 module.exports = nextConfig
