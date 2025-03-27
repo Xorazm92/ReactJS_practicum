@@ -1,0 +1,73 @@
+
+> nextjs-app@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.26
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 17.6s (4239 modules)
+redux-persist failed to create sync storage. falling back to noop storage.
+ ⨯ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/canUseDom' imported from /home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/dynamicCSS.js
+    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+    at moduleResolve (node:internal/modules/esm/resolve:860:10)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:384:53)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:341:34)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:357:11)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1385:24)
+    at Module._compile (node:internal/modules/cjs/loader:1536:5)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/canUseDom',
+  page: '/'
+}
+ ⨯ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/canUseDom' imported from /home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/dynamicCSS.js
+    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+    at moduleResolve (node:internal/modules/esm/resolve:860:10)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:384:53)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:341:34)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:357:11)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1385:24)
+    at Module._compile (node:internal/modules/cjs/loader:1536:5)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/canUseDom',
+  page: '/'
+}
+ ⨯ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/canUseDom' imported from /home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/dynamicCSS.js
+    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+    at moduleResolve (node:internal/modules/esm/resolve:860:10)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:384:53)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:341:34)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:357:11)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1385:24)
+    at Module._compile (node:internal/modules/cjs/loader:1536:5)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/xorazm/Music/ReactJS_practicum-GreenShop/node_modules/rc-util/es/Dom/canUseDom',
+  page: '/'
+}
+ GET / 500 in 773ms
