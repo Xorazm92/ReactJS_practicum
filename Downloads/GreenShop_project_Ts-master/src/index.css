@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.contiener {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px 40px;
+}
+.img1 {
+  width: 280px;
+  height: 270px;
+}
+.flower:hover {
+  border: 3px solid green;
+  box-shadow: 1px 1px 1px gray;
+}
+.read:hover {
+  color: #46a358;
+}
+.slick-dots li button {
+  background-color: #46a358 !important;
+  opacity: 30%;
+}
+.slick-active button {
+  background-color: #46a358 !important;
+}
+.ant-slider-track {
+  border: 2px solid #46a358;
+}
+.ant-slider .ant-slider-hendler::after {
+  box-shadow: 0 0 0 2px #46a358;
+}
+.ant-slider .ant-slider-hendler::after:hover {
+  box-shadow: 0 0 0 2px #46a358;
+}
+.ant-select-selection-item {
+  font-size: 15px;
+  color: #3d3d3d;
+}
+.ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+  background-color: #46a358;
+  border-color: #46a358;
+}
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #46a358;
+  border-color: #46a358 !important;
+}
+.ant-tabs .ant-tabs-ink-bar {
+  background: #46a358 !important;
+}
+
+.grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr)) !important;
+}
