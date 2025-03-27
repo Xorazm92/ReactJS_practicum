@@ -1,43 +1,43 @@
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface Product {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
+  id: number
+  name: string
+  price: number
+  image: string
+}
+
+interface CartItem extends Product {
+  quantity: number
 }
 
 interface ShopState {
-  items: Product[];
-  total: number;
+  cart: CartItem[]
 }
 
 const initialState: ShopState = {
-  items: [],
-  total: 0,
-};
+  cart: [],
+}
 
-const shopSlice = createSlice({
+export const shopSlice = createSlice({
   name: 'shop',
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
-      const existingItem = state.items.find(item => item.id === action.payload.id);
+      const existingItem = state.cart.find(item => item.id === action.payload.id)
       if (existingItem) {
-        existingItem.quantity++;
+        existingItem.quantity += 1
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.cart.push({ ...action.payload, quantity: 1 })
       }
-      state.total = state.items.reduce((total, item) => total + item.price * item.quantity, 0);
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter(item => item.id !== action.payload);
-      state.total = state.items.reduce((total, item) => total + item.price * item.quantity, 0);
+      state.cart = state.cart.filter(item => item.id !== action.payload)
     },
   },
-});
+})
 
-export const { addToCart, removeFromCart } = shopSlice.actions;
-export default shopSlice.reducer;
+export const { addToCart, removeFromCart } = shopSlice.actions
+
+export default shopSlice.reducer
