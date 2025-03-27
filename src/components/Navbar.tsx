@@ -1,46 +1,40 @@
 
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { FiShoppingCart, FiSearch, FiUser } from 'react-icons/fi'
+import { useState } from 'react';
+import { FiShoppingCart, FiSearch, FiUser } from 'react-icons/fi';
+import Link from 'next/link';
 
 const Navbar = () => {
-  const router = useRouter()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-primary">
+    <nav className="bg-white shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          <Link href="/" className="text-2xl font-bold text-[#46A358]">
             GreenShop
           </Link>
           
-          <div className="flex items-center space-x-8">
-            <Link href="/" className={`${router.pathname === '/' ? 'text-primary' : ''}`}>
+          <div className="hidden md:flex space-x-8">
+            <Link href="/" className="text-gray-700 hover:text-[#46A358]">
               Home
             </Link>
-            <Link href="/shop" className={`${router.pathname === '/shop' ? 'text-primary' : ''}`}>
+            <Link href="/shop" className="text-gray-700 hover:text-[#46A358]">
               Shop
             </Link>
-            <Link href="/blog" className={`${router.pathname === '/blog' ? 'text-primary' : ''}`}>
+            <Link href="/blog" className="text-gray-700 hover:text-[#46A358]">
               Blog
             </Link>
           </div>
 
-          <div className="flex items-center space-x-6">
-            <button className="text-xl">
-              <FiSearch />
-            </button>
-            <button className="text-xl">
-              <FiShoppingCart />
-            </button>
-            <button className="text-xl">
-              <FiUser />
-            </button>
+          <div className="flex items-center space-x-4">
+            <FiSearch className="w-6 h-6 text-gray-600 cursor-pointer" />
+            <FiShoppingCart className="w-6 h-6 text-gray-600 cursor-pointer" />
+            <FiUser className="w-6 h-6 text-gray-600 cursor-pointer" />
           </div>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
