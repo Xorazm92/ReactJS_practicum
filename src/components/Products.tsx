@@ -1,44 +1,45 @@
 
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/slices/shopSlice';
-import { Card, Button } from 'antd';
-import { ShoppingCartOutlined, HeartOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Card } from 'antd';
 
 const products = [
   {
     id: 1,
     name: "Barberton Daisy",
     price: 119.00,
-    image: "https://firebasestorage.googleapis.com/v0/b/aema-image-upload.appspot.com/o/greenshop%2Fimages%2Fflower1.png?alt=media&token=0b53d608-7264-4c54-b497-a9bf054fcd9d",
+    image: "/plants/1.jpg"
   },
-  // Add more products as needed
+  {
+    id: 2,
+    name: "Angel Wing Begonia",
+    price: 169.00,
+    image: "/plants/2.jpg"
+  },
+  // Boshqa mahsulotlarni qo'shish mumkin
 ];
 
 const Products = () => {
-  const dispatch = useDispatch();
-
   return (
-    <div className="container mx-auto py-8">
-      <h2 className="text-2xl font-bold mb-6">Our Products</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            hoverable
-            cover={<img alt={product.name} src={product.image} className="p-4" />}
-            actions={[
-              <HeartOutlined key="favorite" />,
-              <ShoppingCartOutlined key="add" onClick={() => dispatch(addToCart(product))} />
-            ]}
-          >
-            <Card.Meta
-              title={product.name}
-              description={`$${product.price}`}
-            />
-          </Card>
-        ))}
+    <section className="py-12">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold mb-8">Our Products</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <Card key={product.id} hoverable className="product-card">
+              <div className="flex flex-col items-center">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover mb-4"
+                />
+                <h3 className="text-lg font-semibold">{product.name}</h3>
+                <p className="text-primary font-bold">${product.price}</p>
+              </div>
+            </Card>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

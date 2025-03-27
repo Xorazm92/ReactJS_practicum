@@ -1,4 +1,3 @@
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Product {
@@ -6,17 +5,14 @@ interface Product {
   name: string;
   price: number;
   quantity: number;
-  image: string;
 }
 
 interface ShopState {
-  items: Product[];
-  total: number;
+  cart: Product[];
 }
 
 const initialState: ShopState = {
-  items: [],
-  total: 0,
+  cart: [],
 };
 
 const shopSlice = createSlice({
@@ -24,17 +20,10 @@ const shopSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
-      const existingItem = state.items.find(item => item.id === action.payload.id);
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        state.items.push({ ...action.payload, quantity: 1 });
-      }
-      state.total = state.items.reduce((total, item) => total + item.price * item.quantity, 0);
+      state.cart.push(action.payload);
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter(item => item.id !== action.payload);
-      state.total = state.items.reduce((total, item) => total + item.price * item.quantity, 0);
+      state.cart = state.cart.filter(item => item.id !== action.payload);
     },
   },
 });
